@@ -100,6 +100,8 @@
 
 <h1>Запуск</h1>
 Для запуска нужно</br>
-docker-compose up
-docker exec -it tic-php-fpm composer install
-docker exec -it tic-php-fpm php artisan mirgate
+скопировать .env.example  в .env</br>
+и выполнить команды</br>
+docker-compose up</br>
+docker exec -it tic-php-fpm composer install</br>
+docker exec -it tic-php-fpm php artisan mirgate</br>
