@@ -1,0 +1,48 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+networks:
+  backend:
+services:
+
+    mysql:
+      image: mysql:5.7
+      container_name: tic-mysql
+      working_dir: /tiktaktoe
+      volumes:
+        - .:/tiktaktoe
+      environment:
+        - MYSQL_ROOT_PASSWORD=test
+        - MYSQL_DATABASE=tiktaktoe
+        - MYSQL_USER=test
+        - MYSQL_PASSWORD=test
+      ports:
+        - "8267:3306"
+      networks:
+        - backend
+
+    webserver:
+      image: nginx:alpine
+      container_name: tic-webserver
+      working_dir: /tiktaktoe
+      volumes:
+        - .:/tiktaktoe
+        - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      ports:
+        - "8080:80"
+      networks: 
+        - backend
+      depends_on:
+        - php-fpm
+
+    php-fpm:
+      build: phpdocker/php-fpm
+      container_name: tic-php-fpm
+      working_dir: /tiktaktoe
+      volumes:
+        - .:/tiktaktoe
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+      networks: 
+        - backend
+
